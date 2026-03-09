@@ -4,14 +4,35 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>3r1ksec</title>
+
+        <!-- Estilos propios -->
         <link rel="stylesheet" href="styles/styles.css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+        <!-- Fuente monoespaciada para la terminal -->
+        <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"
+        />
+
+        <!-- Iconos de Font Awesome (GitHub, LinkedIn, etc.) -->
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        />
     </head>
     <body>
+        <!-- ── Navegación ─────────────────────────────────────────────── -->
         <nav>
+            <!-- Logo espartano + texto "3r1k" (aparece con glitch al hover) -->
             <div class="name">
+                <img
+                    src="/assets/spartan_logo-removebg-preview.png"
+                    alt="imagen-casco-espartano"
+                />
                 <h2 id="name">3r1k</h2>
             </div>
+
+            <!-- Links de navegación (también tienen efecto glitch al hover) -->
             <div class="options">
                 <li><a href="">Inicio</a></li>
                 <li><a href="">Proyectos</a></li>
@@ -19,19 +40,47 @@
             </div>
         </nav>
 
+        <!-- ── Hero principal ─────────────────────────────────────────── -->
         <main>
+            <!-- Bloque izquierdo: nombre, subtítulo y redes sociales -->
             <article>
-                <h1> Erik <br> Gavilán</h1>
+                <h1>
+                    Erik <br />
+                    Gavilán
+                </h1>
                 <h2>Ciberseguridad y Desarrollo</h2>
                 <div class="social-links">
-                    <a href="https://github.com/Erikgavs" target="_blank"><i class="fa-brands fa-github"></i></a>
-                    <a href="https://www.linkedin.com/in/erik-gavil%C3%A1n-medero-b6914b339/" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
+                    <a href="https://github.com/Erikgavs" target="_blank"
+                        ><i class="fa-brands fa-github"></i
+                    ></a>
+                    <a
+                        href="https://www.linkedin.com/in/erik-gavil%C3%A1n-medero-b6914b339/"
+                        target="_blank"
+                        ><i class="fa-brands fa-linkedin"></i
+                    ></a>
                 </div>
             </article>
-            <aside>
 
+            <!-- Bloque derecho: terminal animada -->
+            <aside>
+                <div class="terminal">
+                    <!-- Barra superior con los 3 puntos (rojo, amarillo, verde) -->
+                    <div class="terminal-bar">
+                        <div class="terminal-dot red"></div>
+                        <div class="terminal-dot yellow"></div>
+                        <div class="terminal-dot green"></div>
+                        <div class="terminal-title">erik@archlinux ~ zsh</div>
+                    </div>
+                    <!-- Aquí el JS inyecta las líneas de la terminal -->
+                    <div class="terminal-body" id="terminalBody"></div>
+                </div>
             </aside>
         </main>
     </body>
-    <script src="script.js"></script>
+
+    <!-- Efecto glitch del logo y links del nav -->
+    <script src="js/script.js"></script>
+
+    <!-- Animación de escritura de la terminal -->
+    <script src="js/terminal.js"></script>
 </html>

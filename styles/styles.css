@@ -1,30 +1,64 @@
 /* ── Base ──────────────────────────────────────────────────────────────────── */
+/* Fondo negro con cuadrícula roja sutil formada por dos gradientes cruzados */
 body {
     padding: 0;
     margin: 0;
     background-color: black;
-    /* Cuadrícula roja: dos gradientes superpuestos forman líneas horizontales y verticales */
     background-image:
-        linear-gradient(rgba(160, 0, 0, 0.08) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(160, 0, 0, 0.08) 1px, transparent 1px);
-    background-size: 50px 50px; /* tamaño de cada celda */
+        linear-gradient(rgba(160, 0, 0, 0.25) 1px, transparent 1px),       /* líneas horizontales */
+        linear-gradient(90deg, rgba(160, 0, 0, 0.25) 1px, transparent 1px); /* líneas verticales */
+    background-size: 50px 50px; /* tamaño de cada celda de la cuadrícula */
 }
 
 /* ── Navegación ────────────────────────────────────────────────────────────── */
+/* Barra superior: logo a la izquierda, links a la derecha */
 nav {
     color: white;
     display: flex;
     justify-content: space-between;
 }
 
-/* Logo / nombre en la esquina izquierda */
+/* Contenedor del logo espartano + texto "3r1k" */
 .name {
-    margin-left: 3vw;
+    display: flex;
+    align-items: center;
+    margin-left: 1vw;
     letter-spacing: 1px;
     font-size: 20px;
+    cursor: pointer; /* indica que es interactivo (hover revela el nombre) */
 }
 
-/* Lista de enlaces del nav */
+/* Imagen del casco espartano */
+.name img {
+    height: 70px;
+    width: 70px;
+    transition: opacity 0.2s; /* transición suave para posibles cambios de opacidad */
+}
+
+/* El h2 no salta de línea cuando aparecen las letras */
+.name #name {
+    white-space: nowrap;
+}
+
+/* ── Spans del nombre "3r1k" ──────────────────────────────────────────────── */
+/* Cada letra es un <span> generado por JS. Empiezan invisibles (opacity:0)
+   y el JS las hace visibles una a una con el efecto scramble al hover. */
+#name span {
+    display: inline-block;
+    opacity: 0; /* ocultas por defecto, el JS controla cuándo aparecen */
+    transition:
+        color 0.15s,
+        text-shadow 0.15s;
+}
+
+/* Clase temporal que el JS añade durante el scramble: texto rojo con glow */
+#name span.glitch {
+    color: red;
+    text-shadow: 0 0 8px red;
+}
+
+/* ── Links del nav ────────────────────────────────────────────────────────── */
+/* Lista horizontal de enlaces */
 .options {
     display: flex;
     list-style: none;
@@ -39,30 +73,22 @@ nav {
     font-size: 20px;
 }
 
-/* Cada letra del nombre se envuelve en un span para animarlas individualmente */
-#name span {
-    display: inline-block;
-    transition: color 0.15s, text-shadow 0.15s;
-}
-
-/* Clase que el JS añade mientras la letra está siendo "scrambleada" */
-#name span.glitch {
-    color: red;
-    text-shadow: 0 0 8px red;
-}
-
-/* Lo mismo para los links del nav */
+/* Spans de los links: misma lógica que el nombre, pero siempre visibles */
 .options a span {
     display: inline-block;
-    transition: color 0.15s, text-shadow 0.15s;
+    transition:
+        color 0.15s,
+        text-shadow 0.15s;
 }
 
+/* Glow rojo durante el scramble de los links */
 .options a span.glitch {
     color: red;
     text-shadow: 0 0 8px red;
 }
 
 /* ── Hero ──────────────────────────────────────────────────────────────────── */
+/* Contenedor principal: article (izquierda) + aside (derecha) */
 main {
     height: 90vh;
     display: flex;
@@ -70,11 +96,11 @@ main {
     justify-content: space-between;
 }
 
-/* Bloque de texto izquierdo */
+/* Bloque de texto izquierdo (nombre grande + subtítulo + redes) */
 article {
     height: 25vh;
     margin-left: 12vw;
-    margin-bottom: 15vh;
+    margin-bottom: 5vh;
 }
 
 article h1 {
@@ -83,18 +109,29 @@ article h1 {
     margin: 0;
 }
 
-/* Animación del subtítulo: el gradiente se desplaza de derecha a izquierda */
+/* Subtítulo con gradiente rojo animado que se desplaza horizontalmente */
 @keyframes gradientMove {
-    0%   { background-position: 100% 50%; }
-    100% { background-position: -100% 50%; }
+    0% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: -100% 50%;
+    }
 }
 
 article h2 {
-    background: linear-gradient(90deg, #7a0000, #7a0000, #ff0000, #7a0000, #7a0000);
+    background: linear-gradient(
+        90deg,
+        #7a0000,
+        #7a0000,
+        #ff0000,
+        #7a0000,
+        #7a0000
+    );
     background-size: 200% auto;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: gradientMove 3s linear infinite;
+    -webkit-background-clip: text;             /* el gradiente solo se ve a través del texto */
+    -webkit-text-fill-color: transparent;      /* hace el texto transparente para mostrar el fondo */
+    animation: gradientMove 3s linear infinite; /* desplaza el gradiente continuamente */
     margin: 0;
 }
 
@@ -115,17 +152,202 @@ article h2 {
     color: red;
 }
 
-/* ── Aside (contenedor derecho) ────────────────────────────────────────────── */
+/* ── Aside (contenedor de la terminal) ────────────────────────────────────── */
+/* Centrado horizontalmente con margin auto */
 aside {
-    border: 1px solid white;
-    height: 20vh;
-    width: 15vw;
-    margin-right: 3vw;
-    margin-bottom: 15vh;
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom: 5vh;
+    width: 600px;
+    max-width: 50vw;
+}
+
+/* ── Terminal ─────────────────────────────────────────────────────────────── */
+/* Contenedor principal de la terminal falsa */
+.terminal {
+    width: 100%;
+    background: rgba(10, 10, 10, 0.85);          /* fondo casi negro, ligeramente translúcido */
+    border: 1px solid rgba(200, 30, 50, 0.3);    /* borde rojo sutil */
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow:
+        0 0 40px rgba(200, 30, 50, 0.08),         /* glow rojo difuso */
+        0 20px 60px rgba(0, 0, 0, 0.5);           /* sombra de profundidad */
+    backdrop-filter: blur(10px);                   /* desenfoque del fondo detrás */
+    font-family: "JetBrains Mono", monospace;
+    animation: borderGlow 4s ease-in-out infinite; /* pulso del borde */
+}
+
+/* Pulso suave del borde: va de opacidad 0.2 a 0.45 y vuelve */
+@keyframes borderGlow {
+    0%,
+    100% {
+        border-color: rgba(200, 30, 50, 0.2);
+    }
+    50% {
+        border-color: rgba(200, 30, 50, 0.45);
+    }
+}
+
+/* Barra superior con los 3 puntos de colores (estilo macOS) */
+.terminal-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    background: rgba(255, 255, 255, 0.03);          /* fondo apenas visible */
+    border-bottom: 1px solid rgba(200, 30, 50, 0.15);
+}
+
+/* Puntos de la barra: cerrar (rojo), minimizar (amarillo), maximizar (verde) */
+.terminal-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.terminal-dot.red {
+    background: #c81e32;
+}
+
+.terminal-dot.yellow {
+    background: #e8a028;
+    opacity: 0.6;
+}
+
+.terminal-dot.green {
+    background: #2ea043;
+    opacity: 0.6;
+}
+
+/* Título centrado de la barra: "erik@archlinux ~ zsh" */
+.terminal-title {
+    flex: 1;
+    text-align: center;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.3);
+    letter-spacing: 0.5px;
+}
+
+/* Cuerpo de la terminal donde el JS inyecta las líneas */
+.terminal-body {
+    position: relative; /* necesario para el pseudo-elemento de scanlines */
+    padding: 20px;
+    height: 300px;       /* altura fija */
+    overflow-y: auto;    /* scroll cuando el contenido desborda */
+    scrollbar-width: none; /* oculta scrollbar en Firefox */
+}
+
+/* Oculta scrollbar en Chrome/Safari/Edge */
+.terminal-body::-webkit-scrollbar {
+    display: none;
+    font-size: 13.5px;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.75);
+}
+
+/* Overlay de scanlines: líneas horizontales muy sutiles estilo CRT */
+.terminal-body::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 0, 0, 0.03) 2px,
+        rgba(0, 0, 0, 0.03) 4px
+    );
+    pointer-events: none; /* no bloquea clics ni selección de texto */
+}
+
+/* ── Líneas de la terminal ────────────────────────────────────────────────── */
+/* Cada línea empieza invisible y desplazada 4px abajo */
+.line {
+    opacity: 0;
+    transform: translateY(4px);
+    white-space: nowrap;
+    overflow: hidden;
+    margin-bottom: 2px;
+}
+
+/* Al añadir .visible, la línea sube y aparece con transición suave */
+.line.visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition:
+        opacity 0.3s ease,
+        transform 0.3s ease;
+}
+
+/* Prompt rojo: el símbolo ❯ se añade con ::before */
+.prompt {
+    color: #c81e32;
+    font-weight: 700;
+}
+
+.prompt::before {
+    content: "❯ ";
+    color: #c81e32;
+}
+
+/* Texto del comando: el JS lo escribe caracter a caracter */
+.cmd {
+    color: rgba(255, 255, 255, 0.9);
+    border-right: 2px solid transparent; /* borde invisible que se activa al escribir */
+}
+
+/* Mientras escribe, el borde derecho simula un cursor fijo */
+.cmd.typing {
+    border-right-color: #c81e32;
+}
+
+/* ── Output de los comandos ───────────────────────────────────────────────── */
+.output {
+    color: rgba(255, 255, 255, 0.5);
+    padding-left: 18px; /* indentación respecto al prompt */
+}
+
+.output.highlight {
+    color: #c81e32; /* rojo para info destacada */
+}
+
+.output.success {
+    color: #2ea043; /* verde para mensajes de éxito */
+}
+
+.output.accent {
+    color: #e8a028; /* amarillo para nombres de proyectos */
+}
+
+.output.white {
+    color: rgba(255, 255, 255, 0.85); /* blanco para texto principal */
+}
+
+/* Cursor parpadeante al final de la secuencia (estado idle) */
+.cursor-idle {
+    display: inline-block;
+    width: 8px;
+    height: 16px;
+    background: #c81e32;
+    vertical-align: text-bottom;
+    animation: blink 0.8s step-end infinite;
+    margin-left: 2px;
+}
+
+/* Animación de parpadeo: visible 50% del tiempo, invisible el otro 50% */
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
 }
 
 /* ── Responsive (móvil) ────────────────────────────────────────────────────── */
 @media (max-width: 768px) {
+    /* Nav en columna centrada */
     nav {
         flex-direction: column;
         align-items: center;
@@ -146,6 +368,7 @@ aside {
         font-size: 16px;
     }
 
+    /* Hero en columna en vez de fila */
     main {
         flex-direction: column;
         justify-content: center;
@@ -154,7 +377,9 @@ aside {
         padding: 20px;
     }
 
-    article, aside {
+    /* Article y aside ocupan todo el ancho */
+    article,
+    aside {
         margin: 0;
         width: 100%;
     }
