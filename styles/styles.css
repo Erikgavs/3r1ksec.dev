@@ -345,7 +345,22 @@ aside {
     }
 }
 
-/* ── Responsive (móvil) ────────────────────────────────────────────────────── */
+/* ── Responsive: Tablet (≤1024px) ─────────────────────────────────────────── */
+@media (max-width: 1024px) {
+    article {
+        margin-left: 6vw;
+    }
+
+    article h1 {
+        font-size: 48px;
+    }
+
+    aside {
+        max-width: 45vw;
+    }
+}
+
+/* ── Responsive: Móvil (≤768px) ──────────────────────────────────────────── */
 @media (max-width: 768px) {
     /* Nav en columna centrada */
     nav {
@@ -359,6 +374,11 @@ aside {
         margin-left: 0;
     }
 
+    .name img {
+        height: 50px;
+        width: 50px;
+    }
+
     .options {
         margin-right: 0;
         gap: 20px;
@@ -368,19 +388,80 @@ aside {
         font-size: 16px;
     }
 
-    /* Hero en columna en vez de fila */
+    /* Hero en columna: article arriba, terminal abajo */
     main {
         flex-direction: column;
+        align-items: center;
         justify-content: center;
-        gap: 20px;
+        gap: 30px;
         height: auto;
+        min-height: 90vh;
         padding: 20px;
     }
 
-    /* Article y aside ocupan todo el ancho */
-    article,
+    /* Article centrado y sin margen lateral */
+    article {
+        height: auto;
+        margin: 0;
+        text-align: center;
+    }
+
+    article h1 {
+        font-size: 40px;
+    }
+
+    article h2 {
+        font-size: 16px;
+    }
+
+    .social-links {
+        justify-content: center;
+    }
+
+    /* Aside ocupa todo el ancho disponible */
     aside {
         margin: 0;
         width: 100%;
+        max-width: 100%;
+    }
+
+    /* Terminal se adapta al ancho */
+    .terminal-body {
+        height: 250px;
+        padding: 15px;
+        font-size: 12px;
+    }
+
+    .terminal-title {
+        font-size: 10px;
+    }
+}
+
+/* ── Responsive: Móvil pequeño (≤480px) ──────────────────────────────────── */
+@media (max-width: 480px) {
+    article h1 {
+        font-size: 32px;
+    }
+
+    article h2 {
+        font-size: 14px;
+    }
+
+    .options {
+        gap: 15px;
+    }
+
+    .options a {
+        font-size: 14px;
+    }
+
+    .terminal-body {
+        height: 220px;
+        padding: 12px;
+        font-size: 11px;
+    }
+
+    .output {
+        padding-left: 10px;
     }
 }

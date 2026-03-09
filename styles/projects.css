@@ -1,0 +1,121 @@
+body {
+    padding: 0;
+    margin: 0;
+    background-color: black;
+    background-image:
+        linear-gradient(rgba(160, 0, 0, 0.25) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(160, 0, 0, 0.25) 1px, transparent 1px);
+    background-size: 50px 50px;
+}
+
+/* ── Navegación ────────────────────────────────────────────────────────────── */
+nav {
+    color: white;
+    display: flex;
+    justify-content: space-between;
+}
+
+.name {
+    display: flex;
+    align-items: center;
+    margin-left: 1vw;
+    letter-spacing: 1px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.name img {
+    height: 70px;
+    width: 70px;
+    transition: opacity 0.2s;
+}
+
+.name #name {
+    white-space: nowrap;
+}
+
+#name span {
+    display: inline-block;
+    opacity: 0;
+    transition:
+        color 0.15s,
+        text-shadow 0.15s;
+}
+
+#name span.glitch {
+    color: red;
+    text-shadow: 0 0 8px red;
+}
+
+.options {
+    display: flex;
+    list-style: none;
+    align-items: center;
+    margin-right: 5vw;
+    gap: 60px;
+}
+
+.options a {
+    text-decoration: none;
+    color: white;
+    font-size: 20px;
+}
+
+.options a span {
+    display: inline-block;
+    transition:
+        color 0.15s,
+        text-shadow 0.15s;
+}
+
+.options a span.glitch {
+    color: red;
+    text-shadow: 0 0 8px red;
+}
+
+.title {
+    border: 1px solid white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 7vh;
+}
+
+@keyframes gradientMove {
+    0% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: -100% 50%;
+    }
+}
+
+.title h1 {
+    font-size: 50px;
+    margin: 0;
+    background: linear-gradient(
+        90deg,
+        #7a0000,
+        #7a0000,
+        #ff0000,
+        #7a0000,
+        #7a0000
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientMove 3s linear infinite;
+}
+
+.parent-cards {
+    border: 1px solid white;
+}
+
+.card {
+    background-color: grey;
+    border-color: red;
+}
+
+.card h1 {
+    color: white;
+}
