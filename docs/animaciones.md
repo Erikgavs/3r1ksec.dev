@@ -648,3 +648,158 @@ Overlay invisible de líneas horizontales muy tenues (3% de opacidad). Simula la
 ```
 
 Cada línea empieza invisible y desplazada 4px hacia abajo. Al añadir `.visible`, sube a su posición y aparece en 0.3s. Efecto de "subir y aparecer".
+
+---
+
+## Botón chitchat — Efecto glitch de descifrado (projects.css)
+
+### Concepto
+
+Al hacer hover sobre el botón "Saber más", un pseudo-elemento (`::before`) tapa el texto con caracteres random que se van "borrando", revelando el texto original. Simula un descifrado de terminal.
+
+### Estructura HTML
+
+```html
+<button class="card-btn">
+  <span>Saber más</span>
+</button>
+```
+
+Solo un `<button>` con un `<span>` dentro. El CSS genera el `::before` automáticamente.
+
+### Piezas clave del CSS
+
+#### 1. El `span` es relativo
+
+```css
+.card-btn span {
+    position: relative;
+    background: inherit;
+}
+```
+
+- `position: relative` → permite que el `::before` se posicione encima
+- `background: inherit` → hereda el fondo del botón (importante para tapar el texto)
+
+#### 2. El `::before` es el que hace la magia
+
+```css
+.card-btn span::before {
+    position: absolute;
+    content: "";
+    background: inherit;
+}
+```
+
+- `position: absolute` → se superpone al texto del `span`
+- `content: ""` → vacío por defecto, no se ve nada
+- `background: inherit` → mismo fondo que el botón → **tapa el texto real**
+
+### Cómo funciona la animación
+
+Al hacer hover, se dispara `@keyframes chitchat` sobre el `::before`:
+
+```css
+.card-btn:hover span::before {
+    animation: chitchat linear both 1.2s;
+}
+```
+
+La animación cambia el `content` del `::before` a lo largo de 1.2 segundos:
+
+#### Fase 1 — Ruido creciente (0%–50%)
+
+El `::before` empieza a la izquierda del span (posición por defecto). Va mostrando caracteres random que crecen en cantidad:
+
+```
+Tiempo    content       Chars    Lo que ves en pantalla
+───────────────────────────────────────────────────────
+  0%      "#"           1        #aber más
+  5%      "."           1        .aber más
+ 10%      "^{"          2        ^{ber más
+ 15%      "-!"          2        -!ber más
+ 20%      "#$_"         3        #$_er más
+ 25%      "№:0"         4        №:0r más
+ 30%      "#{+."        4        #{+. más
+ 35%      "@}-?"        4        @}-? más
+ 40%      "?{4@%"       5        ?{4@%más      ← máximo ruido
+ 45%      "=.,^!"       5        =.,^!más
+ 50%      "?2@%"        4        ?2@%más
+```
+
+El `::before` tapa las primeras letras porque:
+- Tiene `position: absolute` (encima del texto)
+- Tiene `background: inherit` (mismo color de fondo → las letras tapadas no se ven)
+- Su `content` muestra los caracteres random en su lugar
+
+#### Fase 2 — Revelación (60%–100%)
+
+A partir del 60%, aparece `right: 0`. Esto mueve el `::before` a la **derecha** del span:
+
+```
+Tiempo    content       right    Lo que ves en pantalla
+───────────────────────────────────────────────────────
+ 60%      "?{%:%"       0        Saber?{%:%
+ 65%      "|{f[4"       0        Sabe|{f[4
+ 70%      "{4%0%"       0        Sab{4%0%
+ 75%      "'1_0<"       0        Sab'1_0<
+ 80%      "{0%"         0        Saber{0%
+ 85%      "]>'"         0        Saber]>'
+ 90%      "4"           0        Saber má4
+ 95%      "2"           0        Saber má2
+100%      ""            0        Saber más        ← limpio
+```
+
+Los caracteres se reducen (5→1→0) mientras se desplazan a la derecha, "revelando" el texto original de izquierda a derecha.
+
+### Diagrama visual del flujo completo
+
+```
+ESTADO NORMAL (sin hover)
+┌────────────────────┐
+│                    │
+│    Saber más       │  ← texto visible en gris, ::before vacío
+│                    │
+└────────────────────┘
+
+HOVER → animación empieza (0%–50%)
+┌────────────────────┐
+│                    │
+│    #$_er más       │  ← ::before tapa desde la izquierda
+│    ?{4@%más        │  ← ruido crece hasta 5 chars
+│                    │
+└────────────────────┘
+
+HOVER → revelación (60%–100%)
+┌────────────────────┐
+│                    │
+│    Saber?{%:%      │  ← ::before salta a la derecha (right:0)
+│    Saber]>'        │  ← chars se reducen
+│    Saber más       │  ← content="" → texto limpio en rojo
+│                    │
+└────────────────────┘
+
+HOVER END → vuelve al estado normal
+```
+
+### ¿Por qué `background: inherit` es clave?
+
+Sin `background: inherit`, el `::before` sería transparente y veríamos **ambos**: el texto real Y los caracteres random superpuestos. Con `inherit`, el pseudo-elemento tiene el mismo fondo que el botón, así que actúa como una "máscara" que tapa el texto que hay debajo.
+
+### Hover adicional del botón
+
+```css
+.card-btn:hover {
+    background: #252525;
+    border-color: #ff000040;
+}
+
+.card-btn:hover span {
+    color: #ff3333;
+}
+```
+
+Además del efecto chitchat:
+- El fondo se aclara ligeramente (`#1a1a1a` → `#252525`)
+- El borde se tiñe de rojo
+- El texto pasa de gris a rojo
