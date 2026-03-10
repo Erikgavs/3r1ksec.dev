@@ -5,8 +5,8 @@ body {
     margin: 0;
     background-color: black;
     background-image:
-        linear-gradient(rgba(160, 0, 0, 0.25) 1px, transparent 1px),       /* líneas horizontales */
-        linear-gradient(90deg, rgba(160, 0, 0, 0.25) 1px, transparent 1px); /* líneas verticales */
+        linear-gradient(rgba(160, 0, 0, 0.1) 1px, transparent 1px),       /* líneas horizontales */
+        linear-gradient(90deg, rgba(160, 0, 0, 0.1) 1px, transparent 1px); /* líneas verticales */
     background-size: 50px 50px; /* tamaño de cada celda de la cuadrícula */
 }
 
