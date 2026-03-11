@@ -271,6 +271,7 @@ main:nth-of-type(3) .card:nth-child(1) { animation-delay: 0.75s; flex: 0 0 calc(
 }
 
 .card-btn {
+    text-decoration: none;
     --btn-transition: 0.3s;
     --btn-animation-duration: 1.2s;
     box-sizing: border-box;
@@ -289,6 +290,7 @@ main:nth-of-type(3) .card:nth-child(1) { animation-delay: 0.75s; flex: 0 0 calc(
 }
 
 .card-btn span {
+    text-decoration: none;
     letter-spacing: 0.1rem;
     transition: var(--btn-transition);
     box-sizing: border-box;
