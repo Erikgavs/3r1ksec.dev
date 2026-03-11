@@ -1,61 +1,59 @@
 // ── Referencias al DOM ───────────────────────────────────────────────────────
-const nameId = document.getElementById('name');          // h2 con el texto "3r1k"
-const optionId = document.querySelectorAll('.options a'); // todos los links del nav
-const nameContainer = document.querySelector('.name');    // contenedor del logo + h2
+const nameId = document.getElementById("name"); // h2 con el texto "3r1k"
+const optionId = document.querySelectorAll(".options a"); // todos los links del nav
+const nameContainer = document.querySelector(".name"); // contenedor del logo + h2
 
 // ── Configuración ────────────────────────────────────────────────────────────
-const text = "3r1k";              // texto original del nombre
-const characters = "!@#€&01x*!";  // caracteres aleatorios para el efecto scramble
+const text = "3r1k"; // texto original del nombre
+const characters = "!@#€&01x*!"; // caracteres aleatorios para el efecto scramble
 
 let running = false; // semáforo: evita que la animación del nombre se solape consigo misma
 
 // ── Preparación de spans ─────────────────────────────────────────────────────
 // Cada letra del nombre se envuelve en un <span> con data-char para poder
 // restaurarla después del scramble. Empiezan ocultas (opacity:0 en CSS).
-nameId.innerHTML = text.split('').map(c =>
-  `<span data-char="${c}">${c}</span>`
-).join('');
+nameId.innerHTML = text
+  .split("")
+  .map((c) => `<span data-char="${c}">${c}</span>`)
+  .join("");
 
 // ── Animación de los links del nav ──────────────────────────────────────────
-// Mismo concepto: dividir en spans y animar al hover.
-optionId.forEach(link => {
+optionId.forEach((link) => {
   const linkText = link.textContent;
 
-  // genera spans individuales por letra (espacios → &nbsp; para que no colapsen)
-  link.innerHTML = linkText.split('').map(c =>
-    `<span data-char="${c}">${c === ' ' ? '&nbsp;' : c}</span>`
-  ).join('');
+  link.innerHTML = linkText
+    .split("")
+    .map((c) => `<span data-char="${c}">${c === " " ? "&nbsp;" : c}</span>`)
+    .join("");
 
-  let linkRunning = false; // semáforo independiente por cada link
+  let linkRunning = false;
 
-  link.addEventListener('mouseenter', () => {
-    if (linkRunning) return; // si ya está animando, ignora
+  link.addEventListener("mouseenter", () => {
+    if (linkRunning) return;
     linkRunning = true;
 
-    const spans = link.querySelectorAll('span');
+    const spans = link.querySelectorAll("span");
 
     spans.forEach((span, i) => {
-      if (span.dataset.char === ' ') return; // los espacios no se animan
+      if (span.dataset.char === " ") return;
 
       let ticks = 0;
 
-      // cada 100ms cambia la letra por un caracter random
       const iv = setInterval(() => {
-        span.textContent = characters[Math.floor(Math.random() * characters.length)];
-        span.classList.add('glitch'); // añade glow rojo
+        span.textContent =
+          characters[Math.floor(Math.random() * characters.length)];
+        span.classList.add("glitch");
 
         ticks++;
 
-        // 3 + i → efecto escalonado: letra 0 para en tick 4, letra 1 en tick 5...
         if (ticks > 3 + i) {
           clearInterval(iv);
-          span.textContent = span.dataset.char; // restaura la letra real
-          span.classList.remove('glitch');
+          span.textContent = span.dataset.char;
+          span.classList.remove("glitch");
 
-          // última letra → desbloquea para permitir nuevo hover
           if (i === spans.length - 1) linkRunning = false;
         }
-      }, 100);
+      }, 80);
     });
   });
 });
@@ -66,30 +64,31 @@ optionId.forEach(link => {
 //   1. Se hace visible (opacity 1)
 //   2. Muestra caracteres aleatorios durante 3 ticks (~240ms)
 //   3. Se fija en su letra real
-nameContainer.addEventListener('mouseenter', () => {
+nameContainer.addEventListener("mouseenter", () => {
   if (running) return; // evita solapamiento
   running = true;
 
-  const spans = nameId.querySelectorAll('span');
+  const spans = nameId.querySelectorAll("span");
 
   spans.forEach((span, i) => {
     // delay escalonado: letra 0 arranca al instante, letra 1 a los 120ms, etc.
     setTimeout(() => {
-      span.style.opacity = '1'; // hace visible la letra
+      span.style.opacity = "1"; // hace visible la letra
 
       let ticks = 0;
 
       // scramble: cada 80ms pone un caracter random con glow
       const iv = setInterval(() => {
-        span.textContent = characters[Math.floor(Math.random() * characters.length)];
-        span.classList.add('glitch');
+        span.textContent =
+          characters[Math.floor(Math.random() * characters.length)];
+        span.classList.add("glitch");
         ticks++;
 
         // después de 3 ticks, fija la letra real y quita el glow
         if (ticks > 3) {
           clearInterval(iv);
           span.textContent = span.dataset.char;
-          span.classList.remove('glitch');
+          span.classList.remove("glitch");
 
           // última letra → desbloquea el semáforo
           if (i === spans.length - 1) running = false;
@@ -105,8 +104,8 @@ nameContainer.addEventListener('mouseenter', () => {
 // Cada letra:
 //   1. Muestra caracteres aleatorios durante 3 ticks
 //   2. Se oculta (opacity 0) al terminar
-nameContainer.addEventListener('mouseleave', () => {
-  const spans = nameId.querySelectorAll('span');
+nameContainer.addEventListener("mouseleave", () => {
+  const spans = nameId.querySelectorAll("span");
   const total = spans.length;
 
   spans.forEach((span, i) => {
@@ -119,15 +118,16 @@ nameContainer.addEventListener('mouseleave', () => {
 
       // scramble de salida: misma lógica pero al final oculta la letra
       const iv = setInterval(() => {
-        span.textContent = characters[Math.floor(Math.random() * characters.length)];
-        span.classList.add('glitch');
+        span.textContent =
+          characters[Math.floor(Math.random() * characters.length)];
+        span.classList.add("glitch");
         ticks++;
 
         if (ticks > 3) {
           clearInterval(iv);
           span.textContent = span.dataset.char;
-          span.classList.remove('glitch');
-          span.style.opacity = '0'; // oculta la letra tras el scramble
+          span.classList.remove("glitch");
+          span.style.opacity = "0"; // oculta la letra tras el scramble
         }
       }, 80);
     }, reverseI * 120);
@@ -135,3 +135,49 @@ nameContainer.addEventListener('mouseleave', () => {
 
   running = false; // desbloquea para el próximo hover
 });
+
+// ── GLITCH AUTOMÁTICO en "Erik Gavilán" ─────────────────────────────────────
+(() => {
+  const h1 = document.querySelector("article h1");
+  if (!h1) return;
+
+  // Envolver cada letra en <span data-char>, preservando <br>
+  const raw = h1.innerHTML;
+  h1.innerHTML = raw.replace(/(<br\s*\/?>)|(\S)/g, (match, br, ch) => {
+    if (br) return br;
+    return `<span data-char="${ch}">${ch}</span>`;
+  });
+
+  let glitchRunning = false;
+
+  function triggerGlitch() {
+    if (glitchRunning) return;
+    glitchRunning = true;
+
+    const spans = h1.querySelectorAll("span");
+
+    spans.forEach((span, i) => {
+      setTimeout(() => {
+        let ticks = 0;
+        const iv = setInterval(() => {
+          span.textContent =
+            characters[Math.floor(Math.random() * characters.length)];
+          span.classList.add("glitch");
+          ticks++;
+
+          if (ticks > 4) {
+            clearInterval(iv);
+            span.textContent = span.dataset.char;
+            span.classList.remove("glitch");
+
+            if (i === spans.length - 1) glitchRunning = false;
+          }
+        }, 60);
+      }, i * 80);
+    });
+  }
+
+  // Glitch al cargar + cada 60s
+  setTimeout(triggerGlitch, 1500);
+  setInterval(triggerGlitch, 30000);
+})();

@@ -59,17 +59,17 @@ nav {
     text-decoration: none;
     color: white;
     font-size: 20px;
+    position: relative;
+    display: inline-block;
 }
 
 .options a span {
     display: inline-block;
-    transition:
-        color 0.15s,
-        text-shadow 0.15s;
+    transition: color 0.15s, text-shadow 0.15s;
 }
 
 .options a span.glitch {
-    color: red;
+    color: #ff3333;
     text-shadow: 0 0 8px red;
 }
 
@@ -117,11 +117,29 @@ main {
     border: 1px solid #2a2a2a;
     border-radius: 6px;
     flex: 1;
+    box-sizing: border-box;
     background-color: #0d0d0d;
     padding: 24px;
     position: relative;
     overflow: hidden;
     transition: border-color 0.3s, box-shadow 0.3s;
+    opacity: 0;
+    transform: translateY(25px);
+    animation: cardReveal 0.6s ease forwards;
+}
+
+main:first-of-type .card:nth-child(1) { animation-delay: 0.15s; }
+main:first-of-type .card:nth-child(2) { animation-delay: 0.3s; }
+main:nth-of-type(2) .card:nth-child(1) { animation-delay: 0.45s; }
+main:nth-of-type(2) .card:nth-child(2) { animation-delay: 0.6s; }
+main:nth-of-type(3) { padding-bottom: 6vh; }
+main:nth-of-type(3) .card:nth-child(1) { animation-delay: 0.75s; flex: 0 0 calc(50% - 1.5vw); }
+
+@keyframes cardReveal {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .card::before {

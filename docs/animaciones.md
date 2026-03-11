@@ -6,6 +6,7 @@
 2. [Terminal animada (terminal.js)](#terminal-animada-terminaljs)
 3. [Efecto glitch del logo y nav (script.js)](#efecto-glitch-del-logo-y-nav-scriptjs)
 4. [CSS: animaciones y efectos visuales](#css-animaciones-y-efectos-visuales)
+5. [Glitch automático en "Erik Gavilán"](#glitch-automático-en-erik-gavilán-scriptjs)
 
 ---
 
@@ -803,3 +804,131 @@ Además del efecto chitchat:
 - El fondo se aclara ligeramente (`#1a1a1a` → `#252525`)
 - El borde se tiñe de rojo
 - El texto pasa de gris a rojo
+
+---
+
+## Glitch automático en "Erik Gavilán" (script.js)
+
+### Concepto
+
+El `<h1>` del hero ("Erik Gavilán") ejecuta un efecto glitch automáticamente: una vez al cargar la página y después cada 60 segundos. Reutiliza `characters` y la clase `.glitch` del proyecto.
+
+### Preparación: spans con `data-char`
+
+```js
+const h1 = document.querySelector('article h1');
+h1.innerHTML = raw.replace(/(<br\s*\/?>)|(\S)/g, (match, br, ch) => {
+  if (br) return br;
+  return `<span data-char="${ch}">${ch}</span>`;
+});
+```
+
+**Qué hace:** Envuelve cada letra del h1 en un `<span data-char="X">`, preservando los `<br>`.
+
+**La regex `/(<br\s*\/?>)|(\S)/g`** captura dos cosas:
+- `(<br\s*\/?>)` → cualquier `<br>`, `<br/>` o `<br />` — se deja intacto
+- `(\S)` → cualquier carácter no-espacio — se envuelve en span
+
+**Resultado en el DOM:**
+```html
+<h1>
+  <span data-char="E">E</span><span data-char="r">r</span>...<span data-char="k">k</span>
+  <br />
+  <span data-char="G">G</span><span data-char="a">a</span>...<span data-char="n">n</span>
+</h1>
+```
+
+### La función `triggerGlitch()`
+
+```js
+function triggerGlitch() {
+  if (glitchRunning) return;
+  glitchRunning = true;
+
+  const spans = h1.querySelectorAll('span');
+
+  spans.forEach((span, i) => {
+    setTimeout(() => {
+      let ticks = 0;
+      const iv = setInterval(() => {
+        span.textContent = characters[Math.floor(Math.random() * characters.length)];
+        span.classList.add('glitch');
+        ticks++;
+
+        if (ticks > 4) {
+          clearInterval(iv);
+          span.textContent = span.dataset.char;
+          span.classList.remove('glitch');
+          if (i === spans.length - 1) glitchRunning = false;
+        }
+      }, 60);
+    }, i * 80);
+  });
+}
+```
+
+**Lógica:**
+
+1. **Semáforo** (`glitchRunning`): evita que se solape consigo misma si el intervalo se dispara durante una animación en curso.
+
+2. **Delay escalonado** (`i * 80ms`): cada letra empieza su scramble 80ms después de la anterior.
+
+   | Letra | `i` | Delay | Empieza a... |
+   |-------|-----|-------|--------------|
+   | "E"   | 0   | 0ms   | Inmediato    |
+   | "r"   | 1   | 80ms  | 0.08s        |
+   | "i"   | 2   | 160ms | 0.16s        |
+   | "k"   | 3   | 240ms | 0.24s        |
+   | "G"   | 4   | 320ms | 0.32s        |
+   | ...   | ... | ...   | ...          |
+   | "n"   | 12  | 960ms | 0.96s        |
+
+3. **Scramble por letra** (`setInterval` a 60ms): cada letra muestra ~4 caracteres aleatorios en rojo (clase `.glitch`) y luego restaura el carácter original.
+
+   Para la letra "E":
+   | Tick | Tiempo | textContent | Glow rojo |
+   |------|--------|-------------|-----------|
+   | 1    | 60ms   | `"@"`       | sí        |
+   | 2    | 120ms  | `"0"`       | sí        |
+   | 3    | 180ms  | `"€"`       | sí        |
+   | 4    | 240ms  | `"!"`       | sí        |
+   | fin  | 240ms  | `"E"`       | no        |
+
+4. **Desbloqueo**: cuando la última letra (`i === spans.length - 1`) termina su scramble, `glitchRunning` vuelve a `false`.
+
+### Disparo automático
+
+```js
+setTimeout(triggerGlitch, 500);     // al cargar, con 500ms de delay
+setInterval(triggerGlitch, 60000);  // luego cada 60 segundos
+```
+
+- **`setTimeout(triggerGlitch, 500)`**: espera medio segundo tras cargar la página para que el usuario vea el efecto de entrada.
+- **`setInterval(triggerGlitch, 60000)`**: repite cada 60 segundos indefinidamente.
+
+### CSS asociado
+
+```css
+article h1 span.glitch {
+    color: red;
+    text-shadow: 0 0 8px red;
+}
+```
+
+Misma estética que el glitch del logo y nav: texto rojo con glow.
+
+### Línea de tiempo de un ciclo completo
+
+```
+0ms      → "E" empieza scramble
+60ms     → "E" → "@" (rojo)
+80ms     → "r" empieza scramble
+120ms    → "E" → "0" (rojo), "r" → "#" (rojo)
+160ms    → "i" empieza scramble
+180ms    → "E" → "€" (rojo)
+240ms    → "E" → SE FIJA EN "E", "k" empieza scramble
+...
+~1200ms  → "n" (última letra) se fija → glitchRunning = false
+```
+
+Duración total: ~1.2 segundos para las 13 letras (12 × 80ms de delay + ~240ms de scramble).
