@@ -1,0 +1,60 @@
+.bg-badge {
+    position: fixed;
+    right: 5vw;
+    top: 55%;
+    transform: translateY(-50%);
+    height: 85vh;
+    opacity: 0.4;
+    pointer-events: none;
+    z-index: -1;
+}
+
+article {
+    height: 70vh;
+    width: 50vw;
+}
+
+article h1 {
+    font-size: 50px;
+    background: linear-gradient(
+        90deg,
+        #7a0000,
+        #7a0000,
+        #ff0000,
+        #7a0000,
+        #7a0000
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientMove 3s linear infinite;
+    margin: 0;
+    margin-top: 7vh;
+}
+
+article h4 {
+    color: white;
+    margin: 0;
+}
+
+.content {
+    color: white;
+    font-size: 10px;
+    margin-top: 5vh;
+}
+
+.section-title {
+    color: #e0e0e0;
+    font-size: 22px;
+    font-family: "JetBrains Mono", monospace;
+    margin: 24px 0 10px;
+}
+
+.content p {
+    color: #c0c0c0;
+}
+
+.decrypt-text span.glitch {
+    color: red;
+    text-shadow: 0 0 8px red;
+}
