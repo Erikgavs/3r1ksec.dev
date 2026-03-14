@@ -1,0 +1,52 @@
+.content {
+    opacity: 0;
+}
+
+.content.visible {
+    animation: glitchReveal 0.8s ease forwards;
+}
+
+@keyframes glitchReveal {
+    0% {
+        opacity: 0;
+        transform: translate(0, 20px);
+        filter: blur(4px);
+        clip-path: inset(0 100% 0 0);
+    }
+    15% {
+        opacity: 1;
+        transform: translate(-8px, 0);
+        filter: blur(0);
+        clip-path: inset(0 20% 0 0);
+    }
+    20% {
+        transform: translate(5px, -3px);
+        clip-path: inset(0 10% 0 0);
+        text-shadow: -3px 0 #ff0000, 3px 0 #7a0000;
+    }
+    30% {
+        transform: translate(-3px, 2px);
+        clip-path: inset(0 5% 0 0);
+        text-shadow: 2px 0 #ff0000, -2px 0 #7a0000;
+    }
+    40% {
+        transform: translate(4px, 0);
+        clip-path: inset(0 0 0 0);
+        text-shadow: -1px 0 #ff0000, 1px 0 #7a0000;
+    }
+    50% {
+        transform: translate(-2px, 1px);
+        text-shadow: 1px 0 #ff0000, -1px 0 #7a0000;
+    }
+    60% {
+        transform: translate(1px, 0);
+        text-shadow: none;
+    }
+    100% {
+        opacity: 1;
+        transform: translate(0, 0);
+        filter: blur(0);
+        clip-path: inset(0 0 0 0);
+        text-shadow: none;
+    }
+}

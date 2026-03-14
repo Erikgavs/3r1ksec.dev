@@ -34,4 +34,26 @@
 
     </body>
     <script src="../js/script.js"></script>
+    <script>
+        let delay = 0;
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animationDelay = delay + "s";
+                        entry.target.classList.add("visible");
+                        delay += 0.25;
+                        observer.unobserve(entry.target);
+                    }
+                });
+            },
+            { threshold: 0.15 }
+        );
+        document.querySelectorAll(".content").forEach((el) => observer.observe(el));
+        let scrollTimeout;
+        window.addEventListener("scroll", () => {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => { delay = 0; }, 300);
+        });
+    </script>
 </html>

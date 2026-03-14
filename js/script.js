@@ -1,6 +1,5 @@
 // ── Referencias al DOM ───────────────────────────────────────────────────────
 const nameId = document.getElementById("name"); // h2 con el texto "3r1k"
-const optionId = document.querySelectorAll(".options a"); // todos los links del nav
 const nameContainer = document.querySelector(".name"); // contenedor del logo + h2
 
 // ── Configuración ────────────────────────────────────────────────────────────
@@ -17,46 +16,6 @@ nameId.innerHTML = text
   .map((c) => `<span data-char="${c}">${c}</span>`)
   .join("");
 
-// ── Animación de los links del nav ──────────────────────────────────────────
-optionId.forEach((link) => {
-  const linkText = link.textContent;
-
-  link.innerHTML = linkText
-    .split("")
-    .map((c) => `<span data-char="${c}">${c === " " ? "&nbsp;" : c}</span>`)
-    .join("");
-
-  let linkRunning = false;
-
-  link.addEventListener("mouseenter", () => {
-    if (linkRunning) return;
-    linkRunning = true;
-
-    const spans = link.querySelectorAll("span");
-
-    spans.forEach((span, i) => {
-      if (span.dataset.char === " ") return;
-
-      let ticks = 0;
-
-      const iv = setInterval(() => {
-        span.textContent =
-          characters[Math.floor(Math.random() * characters.length)];
-        span.classList.add("glitch");
-
-        ticks++;
-
-        if (ticks > 3 + i) {
-          clearInterval(iv);
-          span.textContent = span.dataset.char;
-          span.classList.remove("glitch");
-
-          if (i === spans.length - 1) linkRunning = false;
-        }
-      }, 80);
-    });
-  });
-});
 
 // ── HOVER ENTER: letras aparecen una a una con scramble ─────────────────────
 // Al hacer hover sobre .name (logo), cada letra de "3r1k" aparece de izquierda

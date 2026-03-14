@@ -1,60 +1,229 @@
+/* ── Badge de fondo ────────────────────────────────────────────────────────── */
 .bg-badge {
     position: fixed;
-    right: 5vw;
+    right: 3vw;
     top: 55%;
     transform: translateY(-50%);
-    height: 85vh;
-    opacity: 0.4;
+    height: 88vh;
+    opacity: 0.25;
     pointer-events: none;
     z-index: -1;
+    filter: grayscale(0.3) brightness(0.8);
+    mask-image: linear-gradient(to left, black 40%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to left, black 40%, transparent 100%);
 }
 
+/* ── Article layout ───────────────────────────────────────────────────────── */
 article {
-    height: 70vh;
-    width: 50vw;
+    width: 55vw;
+    padding-bottom: 8vh;
 }
 
+/* ── Título principal ─────────────────────────────────────────────────────── */
 article h1 {
-    font-size: 50px;
+    font-size: clamp(60px, 8vw, 110px);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 0.9;
+    margin: 0;
+    margin-top: 4vh;
     background: linear-gradient(
         90deg,
         #7a0000,
-        #7a0000,
         #ff0000,
-        #7a0000,
+        #ff3333,
+        #ff0000,
         #7a0000
     );
     background-size: 200% auto;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     animation: gradientMove 3s linear infinite;
-    margin: 0;
-    margin-top: 7vh;
+    position: relative;
+    text-shadow: none;
 }
 
+
+/* ── Subtítulo ────────────────────────────────────────────────────────────── */
 article h4 {
-    color: white;
+    color: #808080;
     margin: 0;
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0.35em;
+    text-transform: none;
+    font-family: "JetBrains Mono", monospace;
 }
 
+/* Prefijo estilo terminal */
+article h4::before {
+    content: "$ ";
+    color: #ff000080;
+}
+
+/* ── Separador ────────────────────────────────────────────────────────────── */
 .content {
     color: white;
-    font-size: 10px;
     margin-top: 5vh;
+    position: relative;
+    padding-top: 3vh;
+    opacity: 0;
 }
 
+.content.visible {
+    animation: glitchReveal 0.8s ease forwards;
+}
+
+@keyframes glitchReveal {
+    0% {
+        opacity: 0;
+        transform: translate(0, 20px);
+        filter: blur(4px);
+        clip-path: inset(0 100% 0 0);
+    }
+    15% {
+        opacity: 1;
+        transform: translate(-8px, 0);
+        filter: blur(0);
+        clip-path: inset(0 20% 0 0);
+    }
+    20% {
+        transform: translate(5px, -3px);
+        clip-path: inset(0 10% 0 0);
+        text-shadow: -3px 0 #ff0000, 3px 0 #7a0000;
+    }
+    30% {
+        transform: translate(-3px, 2px);
+        clip-path: inset(0 5% 0 0);
+        text-shadow: 2px 0 #ff0000, -2px 0 #7a0000;
+    }
+    40% {
+        transform: translate(4px, 0);
+        clip-path: inset(0 0 0 0);
+        text-shadow: -1px 0 #ff0000, 1px 0 #7a0000;
+    }
+    50% {
+        transform: translate(-2px, 1px);
+        text-shadow: 1px 0 #ff0000, -1px 0 #7a0000;
+    }
+    60% {
+        transform: translate(1px, 0);
+        text-shadow: none;
+    }
+    100% {
+        opacity: 1;
+        transform: translate(0, 0);
+        filter: blur(0);
+        clip-path: inset(0 0 0 0);
+        text-shadow: none;
+    }
+}
+
+.content::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 120px;
+    height: 1px;
+    background: linear-gradient(90deg, #ff0000, transparent);
+}
+
+/* ── Título de sección ────────────────────────────────────────────────────── */
 .section-title {
     color: #e0e0e0;
-    font-size: 22px;
+    font-size: 18px;
+    font-weight: 700;
     font-family: "JetBrains Mono", monospace;
-    margin: 24px 0 10px;
+    margin: 0 0 14px;
+    letter-spacing: 0.05em;
 }
 
+.section-title::before {
+    content: "// ";
+    color: #ff000060;
+    font-weight: 400;
+}
+
+/* ── Párrafos ─────────────────────────────────────────────────────────────── */
 .content p {
-    color: #c0c0c0;
+    color: #a0a0a0;
+    font-size: 15px;
+    line-height: 1.7;
+    font-family: "JetBrains Mono", monospace;
+    max-width: 720px;
 }
 
+/* ── Subtítulos ───────────────────────────────────────────────────────────── */
+.subsection-title {
+    color: #c0c0c0;
+    font-size: 15px;
+    font-weight: 700;
+    font-family: "JetBrains Mono", monospace;
+    margin: 20px 0 8px;
+    letter-spacing: 0.03em;
+}
+
+.subsection-title::before {
+    content: "# ";
+    color: #ff000050;
+    font-weight: 400;
+}
+
+/* ── Lista de temario ─────────────────────────────────────────────────────── */
+.topic-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.topic-list li {
+    color: #a0a0a0;
+    font-size: 14px;
+    font-family: "JetBrains Mono", monospace;
+    padding-left: 20px;
+    position: relative;
+    line-height: 1.6;
+}
+
+.topic-list li::before {
+    content: ">";
+    position: absolute;
+    left: 0;
+    color: #ff0000;
+    font-weight: 700;
+}
+
+/* ── Grid de herramientas ─────────────────────────────────────────────────── */
+.tools-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.tool-tag {
+    font-size: 12px;
+    font-family: "JetBrains Mono", monospace;
+    color: #ff4444;
+    border: 1px solid #ff000025;
+    background-color: #ff000008;
+    padding: 5px 14px;
+    border-radius: 3px;
+    letter-spacing: 0.5px;
+    transition: border-color 0.3s, background-color 0.3s;
+}
+
+.tool-tag:hover {
+    border-color: #ff000060;
+    background-color: #ff000015;
+}
+
+/* ── Glitch en decrypt ────────────────────────────────────────────────────── */
 .decrypt-text span.glitch {
-    color: red;
-    text-shadow: 0 0 8px red;
+    color: #ff0000;
+    text-shadow: 0 0 8px #ff0000;
 }

@@ -63,17 +63,6 @@ nav {
     display: inline-block;
 }
 
-.options a span {
-    display: inline-block;
-    transition:
-        color 0.15s,
-        text-shadow 0.15s;
-}
-
-.options a span.glitch {
-    color: #ff3333;
-    text-shadow: 0 0 8px red;
-}
 
 .title {
     display: flex;

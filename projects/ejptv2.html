@@ -41,7 +41,7 @@
         <main>
             <article>
                 <h1>eJPTv2</h1>
-                <h4>eJunior Penetration Tester</h4>
+                <h4>eJunior penetration tester</h4>
                 <div class="content">
                     <h2 class="section-title">Qué es la eJPT</h2>
                     <p class="decrypt-text">
@@ -51,9 +51,94 @@
                         web.
                     </p>
                 </div>
+
+                <div class="content">
+                    <h2 class="section-title">Formato del examen</h2>
+                    <p class="decrypt-text">
+                        El examen consiste en un entorno de laboratorio real con
+                        múltiples máquinas conectadas en red. Dispones de 48
+                        horas para comprometer los objetivos y responder 35
+                        preguntas de opción múltiple basadas en tus hallazgos.
+                    </p>
+                </div>
+
+                <div class="content">
+                    <h2 class="section-title">Temario</h2>
+                    <ul class="topic-list">
+                        <li>Metodologías de pentesting y evaluación</li>
+                        <li>Reconocimiento y enumeración de hosts y servicios</li>
+                        <li>Explotación de vulnerabilidades en redes</li>
+                        <li>Ataques a aplicaciones web</li>
+                        <li>Post-explotación y movimiento lateral</li>
+                    </ul>
+                </div>
+
+                <div class="content">
+                    <h2 class="section-title">Herramientas clave</h2>
+                    <div class="tools-grid">
+                        <span class="tool-tag">Nmap</span>
+                        <span class="tool-tag">Metasploit</span>
+                        <span class="tool-tag">Burp Suite</span>
+                        <span class="tool-tag">Hydra</span>
+                        <span class="tool-tag">SQLMap</span>
+                        <span class="tool-tag">John the Ripper</span>
+                        <span class="tool-tag">Gobuster</span>
+                        <span class="tool-tag">Wireshark</span>
+                    </div>
+                </div>
+
+                <div class="content">
+                    <h2 class="section-title">Mi experiencia</h2>
+
+                    <h3 class="subsection-title">Subtítulo 1</h3>
+                    <p class="decrypt-text">
+                        Texto placeholder para rellenar.
+                    </p>
+
+                    <h3 class="subsection-title">Subtítulo 2</h3>
+                    <p class="decrypt-text">
+                        Texto placeholder para rellenar.
+                    </p>
+
+                    <h3 class="subsection-title">Subtítulo 3</h3>
+                    <p class="decrypt-text">
+                        Texto placeholder para rellenar.
+                    </p>
+
+                    <h3 class="subsection-title">Subtítulo 4</h3>
+                    <p class="decrypt-text">
+                        Texto placeholder para rellenar.
+                    </p>
+                </div>
             </article>
         </main>
     </body>
     <script src="../js/script.js"></script>
     <script src="../js/decrypt.js"></script>
+    <script>
+        let delay = 0;
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animationDelay = delay + "s";
+                        entry.target.classList.add("visible");
+                        delay += 0.25;
+                        observer.unobserve(entry.target);
+                    }
+                });
+            },
+            { threshold: 0.15 }
+        );
+
+        document.querySelectorAll(".content").forEach((el) => observer.observe(el));
+
+        // Reset delay cuando se hace scroll para que las nuevas secciones
+        // que entren en viewport empiecen escalonadas desde 0
+        let scrollTimeout;
+        window.addEventListener("scroll", () => {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => { delay = 0; }, 300);
+        });
+    </script>
 </html>
